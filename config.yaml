@@ -1,0 +1,26 @@
+# CLI.
+gfcli:
+  gen:
+    dao:
+      - link:            "mysql:root:123456@tcp(localhost:3306)/lolo"
+        tables:          "card_friend"
+        descriptionTag:  true
+
+cli:
+  link:           "mysql:root:123456@tcp(localhost:3306)/lolo"
+  tables:          "card_friend"
+  updateLogics:
+              - name: "State"
+                query: update $table set state = $input, updated_at = $curr,received_by = $uid where order_id = ? AND state = ?
+                data: 
+                  - name: state
+                    value: $input
+                  - name: updated_at
+                    value: $curr
+                where:
+                  - name: id
+                    value: $input
+                    verb: "="
+                  - name: state
+                    value: "2"
+  goModName: "github.com/goindier/example"
